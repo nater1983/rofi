@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 notify-send "Getting list of available Wi-Fi networks..."
+nmcli device wifi rescan 2>/dev/null
+sleep 2
 
 connected=$(nmcli -fields WIFI g)
 if [[ "$connected" =~ "enabled" ]]; then

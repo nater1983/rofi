@@ -66,6 +66,7 @@ elif [[ "$chosen_network" == *"Disable Wi-Fi"* ]]; then
 elif [[ "$chosen_network" == *"Rescan Networks"* ]]; then
 	notify-send "Getting list of available Wi-Fi networks..."
 	nmcli device wifi rescan
+	exec "$0"
 else
 	success_message="You are now connected to the Wi-Fi network \"$chosen_id\"."
 	saved_connections=$(nmcli -g NAME connection)

@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+export SUDO_ASKPASS="/usr/bin/rofi-askpass.sh"
+
 notify-send "Getting list of Bluetooth devices..."
 
 # Bluetooth power state
-power_state=$(sudo bluetoothctl show | grep "Powered:" | awk '{print $2}')
+power_state=$(sudo -A bluetoothctl show | grep "Powered:" | awk '{print $2}')
 if [[ "$power_state" == "yes" ]]; then
 	toggle="  Disable Bluetooth"
 else
@@ -14,8 +16,8 @@ scan_btn="  Scan for Devices"
 
 # Build device list: paired/connected devices always shown,
 # plus anything currently visible in bluetoothctl's device cache
-device_list=$(sudo bluetoothctl devices | while read -r _ mac name; do
-	info=$(sudo bluetoothctl info "$mac")
+device_list=$(sudo -A bluetoothctl devices | while read -r _ mac name; do
+	info=$(sudo -A bluetoothctl info "$mac")
 	connected=$(echo "$info" | grep "Connected:" | awk '{print $2}')
 	paired=$(echo "$info" | grep "Paired:" | awk '{print $2}')
 
@@ -40,12 +42,12 @@ chosen_network=$(echo -e "$toggle\n$scan_btn\n$display_lines" | rofi -dmenu -i -
 if [ "$chosen_network" = "" ]; then
 	exit
 elif [[ "$chosen_network" == *"Enable Bluetooth"* ]]; then
-	sudo bluetoothctl power on
+	sudo -A bluetoothctl power on
 elif [[ "$chosen_network" == *"Disable Bluetooth"* ]]; then
-	sudo bluetoothctl power off
+	sudo -A bluetoothctl power off
 elif [[ "$chosen_network" == *"Scan for Devices"* ]]; then
 	notify-send "Scanning for Bluetooth devices..."
-	sudo bluetoothctl --timeout 5 scan on
+	sudo -A bluetoothctl --timeout 5 scan on
 	exec "$0"
 else
 	# Look up the MAC address matching the chosen display line
@@ -57,16 +59,16 @@ else
 		exit 1
 	fi
 
-	info=$(sudo bluetoothctl info "$chosen_mac")
+	info=$(sudo -A bluetoothctl info "$chosen_mac")
 	connected=$(echo "$info" | grep "Connected:" | awk '{print $2}')
 	paired=$(echo "$info" | grep "Paired:" | awk '{print $2}')
 
 	if [[ "$connected" == "yes" ]]; then
-		sudo bluetoothctl disconnect "$chosen_mac" && notify-send "Bluetooth" "Disconnected from \"$chosen_name\"."
+		sudo -A bluetoothctl disconnect "$chosen_mac" && notify-send "Bluetooth" "Disconnected from \"$chosen_name\"."
 	elif [[ "$paired" == "yes" ]]; then
-		sudo bluetoothctl connect "$chosen_mac" && notify-send "Bluetooth" "Connected to \"$chosen_name\"."
+		sudo -A bluetoothctl connect "$chosen_mac" && notify-send "Bluetooth" "Connected to \"$chosen_name\"."
 	else
-		sudo bluetoothctl pair "$chosen_mac" && bluetoothctl trust "$chosen_mac" && bluetoothctl connect "$chosen_mac" \
+		sudo -A bluetoothctl pair "$chosen_mac" && sudo -A bluetoothctl trust "$chosen_mac" && sudo -A bluetoothctl connect "$chosen_mac" \
 			&& notify-send "Bluetooth" "Paired and connected to \"$chosen_name\"."
 	fi
 fi

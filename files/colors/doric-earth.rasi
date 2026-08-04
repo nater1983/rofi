@@ -1,0 +1,10 @@
+/* Doric-Earth */
+* {
+    background:     #f0eddf; /* bg_main */
+    background-alt: #dfdfce; /* bg_dim */
+    foreground:     #30232e; /* fg_main */
+    selected:       #c09fa0; /* bg_mode_line */
+    selected-fg:    #30232e; /* fg_mode_line */
+    active:         #206700; /* g_green */
+    urgent:         #a03000; /* red */
+}

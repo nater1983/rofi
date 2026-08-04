@@ -1,0 +1,10 @@
+/* Doric-Valley */
+* {
+    background:     #383035; /* bg_main */
+    background-alt: #484040; /* bg_dim */
+    foreground:     #e0d5b7; /* fg_main */
+    selected:       #3d5e57; /* bg_mode_line */
+    selected-fg:    #e0d5b7; /* fg_mode_line */
+    active:         #b9d0aa; /* g_green */
+    urgent:         #eca28f; /* red */
+}

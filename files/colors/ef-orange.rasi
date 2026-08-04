@@ -1,0 +1,10 @@
+/* Ef-Orange */
+* {
+    background:     #ffedc9; /* bg_main */
+    background-alt: #f7e5b6; /* bg_dim */
+    foreground:     #6c4631; /* fg_main */
+    selected:       #ffc255; /* bg_mode_line */
+    selected-fg:    #6c4631; /* fg_mode_line */
+    active:         #007a0a; /* g_green */
+    urgent:         #ba2d2f; /* red */
+}

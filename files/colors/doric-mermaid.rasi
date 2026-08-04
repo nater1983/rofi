@@ -1,0 +1,10 @@
+/* Doric-Mermaid */
+* {
+    background:     #2a2f48; /* bg_main */
+    background-alt: #3c3e55; /* bg_dim */
+    foreground:     #dde0f8; /* fg_main */
+    selected:       #424381; /* bg_mode_line */
+    selected-fg:    #dde0f8; /* fg_mode_line */
+    active:         #a0d0ba; /* g_green */
+    urgent:         #eca28f; /* red */
+}

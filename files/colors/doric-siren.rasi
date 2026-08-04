@@ -1,0 +1,10 @@
+/* Doric-Siren */
+* {
+    background:     #d9e0ed; /* bg_main */
+    background-alt: #c2d1df; /* bg_dim */
+    foreground:     #001020; /* fg_main */
+    selected:       #90b0e0; /* bg_mode_line */
+    selected-fg:    #001020; /* fg_mode_line */
+    active:         #106710; /* g_green */
+    urgent:         #a01010; /* red */
+}

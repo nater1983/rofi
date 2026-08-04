@@ -1,0 +1,10 @@
+/* Doric-Beach */
+* {
+    background:     #eae3d8; /* bg_main */
+    background-alt: #ded4c0; /* bg_dim */
+    foreground:     #213937; /* fg_main */
+    selected:       #abd2c9; /* bg_mode_line */
+    selected-fg:    #213937; /* fg_mode_line */
+    active:         #006000; /* g_green */
+    urgent:         #902000; /* red */
+}

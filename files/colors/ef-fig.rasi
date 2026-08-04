@@ -1,0 +1,10 @@
+/* Ef-Fig */
+* {
+    background:     #3b2043; /* bg_main */
+    background-alt: #432e4e; /* bg_dim */
+    foreground:     #e4d3e1; /* fg_main */
+    selected:       #57602e; /* bg_mode_line */
+    selected-fg:    #e4d3e1; /* fg_mode_line */
+    active:         #7fbb3f; /* g_green */
+    urgent:         #ef797f; /* red */
+}

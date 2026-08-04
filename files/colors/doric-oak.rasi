@@ -1,0 +1,10 @@
+/* Doric-Oak */
+* {
+    background:     #e0d8c7; /* bg_main */
+    background-alt: #d5c9b5; /* bg_dim */
+    foreground:     #3a2018; /* fg_main */
+    selected:       #b1bf88; /* bg_mode_line */
+    selected-fg:    #3a2018; /* fg_mode_line */
+    active:         #226700; /* g_green */
+    urgent:         #982500; /* red */
+}

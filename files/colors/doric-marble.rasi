@@ -1,0 +1,10 @@
+/* Doric-Marble */
+* {
+    background:     #ededed; /* bg_main */
+    background-alt: #dfdfdf; /* bg_dim */
+    foreground:     #202020; /* fg_main */
+    selected:       #b0b0b0; /* bg_mode_line */
+    selected-fg:    #202020; /* fg_mode_line */
+    active:         #106710; /* g_green */
+    urgent:         #a01010; /* red */
+}

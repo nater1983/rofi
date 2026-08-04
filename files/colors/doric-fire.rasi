@@ -1,0 +1,10 @@
+/* Doric-Fire */
+* {
+    background:     #282420; /* bg_main */
+    background-alt: #40332b; /* bg_dim */
+    foreground:     #f5ceb0; /* fg_main */
+    selected:       #7c362c; /* bg_mode_line */
+    selected-fg:    #f5ceb0; /* fg_mode_line */
+    active:         #b9d08a; /* g_green */
+    urgent:         #eca27f; /* red */
+}

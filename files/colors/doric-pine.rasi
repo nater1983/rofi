@@ -1,0 +1,10 @@
+/* Doric-Pine */
+* {
+    background:     #303f2d; /* bg_main */
+    background-alt: #40503d; /* bg_dim */
+    foreground:     #d0e2c8; /* fg_main */
+    selected:       #70523a; /* bg_mode_line */
+    selected-fg:    #d0e2c8; /* fg_mode_line */
+    active:         #a2d09a; /* g_green */
+    urgent:         #e8a28f; /* red */
+}

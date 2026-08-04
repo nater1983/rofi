@@ -20,7 +20,7 @@ wifi_list=$(nmcli -t --fields SECURITY,SSID device wifi list | \
 			if (sec == "" || sec == "--") {
 				icon = ""      # open network icon
 			} else {
-				icon = ""      # locked network icon
+				icon = ""      # locked network icon
 			}
 			print icon "  " ssid
 		}

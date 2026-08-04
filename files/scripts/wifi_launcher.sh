@@ -8,7 +8,7 @@ if [[ ! -f "$pidfile" ]] || ! kill -0 "$(cat "$pidfile" 2>/dev/null)" 2>/dev/nul
 		echo $$ > "$pidfile"
 		trap 'rm -f "$pidfile"' EXIT
 		while true; do
-			nmcli device wifi rescan 2>/dev/null
+			sudo nmcli device wifi rescan 2>/dev/null
 			sleep 60
 		done
 	) &
@@ -25,7 +25,7 @@ fi
 rescan_btn="  Rescan Networks"
 
 # Build colored list using terse output (stable field parsing) + signal-based color/bars
-wifi_list=$(nmcli -t --fields SECURITY,SIGNAL,SSID device wifi list | \
+wifi_list=$(sudo nmcli -t --fields SECURITY,SIGNAL,SSID device wifi list | \
 	awk -F: '
 		{
 			ssid = $3
@@ -60,26 +60,27 @@ chosen_id=$(echo "$chosen_network" | sed -E 's/<[^>]*>//g' | sed -E 's/^\S+\s+\S
 if [ "$chosen_network" = "" ]; then
 	exit
 elif [[ "$chosen_network" == *"Enable Wi-Fi"* ]]; then
-	nmcli radio wifi on
+	sudo nmcli radio wifi on
 elif [[ "$chosen_network" == *"Disable Wi-Fi"* ]]; then
-	nmcli radio wifi off
+	sudo nmcli radio wifi off
 elif [[ "$chosen_network" == *"Rescan Networks"* ]]; then
 	notify-send "Getting list of available Wi-Fi networks..."
-	nmcli device wifi rescan
+	sudo nmcli device wifi rescan
+	sleep 3
 	exec "$0"
 else
 	success_message="You are now connected to the Wi-Fi network \"$chosen_id\"."
 	saved_connections=$(nmcli -g NAME connection)
 
 	if [[ $(echo "$saved_connections" | grep -Fxw "$chosen_id") = "$chosen_id" ]]; then
-		nmcli connection up id "$chosen_id" | grep "successfully" && notify-send "Connection Established" "$success_message"
+		sudo nmcli connection up id "$chosen_id" | grep "successfully" && notify-send "Connection Established" "$success_message"
 	else
-		security=$(nmcli -t --fields SECURITY,SSID device wifi list | awk -F: -v s="$chosen_id" '$2==s{print $1; exit}')
+		security=$(sudo nmcli -t --fields SECURITY,SSID device wifi list | awk -F: -v s="$chosen_id" '$2==s{print $1; exit}')
 		if [[ -n "$security" && "$security" != "--" ]]; then
 			wifi_password=$(rofi -dmenu -p "Password: ")
-			nmcli device wifi connect "$chosen_id" password "$wifi_password" | grep "successfully" && notify-send "Connection Established" "$success_message"
+			sudo nmcli device wifi connect "$chosen_id" password "$wifi_password" | grep "successfully" && notify-send "Connection Established" "$success_message"
 		else
-			nmcli device wifi connect "$chosen_id" | grep "successfully" && notify-send "Connection Established" "$success_message"
+			sudo nmcli device wifi connect "$chosen_id" | grep "successfully" && notify-send "Connection Established" "$success_message"
 		fi
 	fi
 fi

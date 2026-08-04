@@ -21,14 +21,13 @@ wifi_list=$(nmcli -t --fields SECURITY,SIGNAL,SSID device wifi list | \
 			if (ssid == "") next
 
 			sec = $1
-			if (sec == "" || sec == "--") {
-				icon = ""      # open network icon
-			} else {
-				icon = ""      # locked network icon
-		
 			signal = $2 + 0
 
-			icon = (sec == "" || sec == "--") ? "直" : "睊"
+			if (sec == "" || sec == "--") {
+				icon = ""      # open network icon -- paste real glyph here
+			} else {
+				icon = ""      # locked network icon -- paste real glyph here
+			}
 
 			# Bars: 4-level block indicator based on signal strength
 			if (signal >= 80) { bars = "▂▄▆█"; color = "#8BC34A" }       # excellent - green

@@ -8,14 +8,13 @@ if [[ ! -f "$pidfile" ]] || ! kill -0 "$(cat "$pidfile" 2>/dev/null)" 2>/dev/nul
 		echo $$ > "$pidfile"
 		trap 'rm -f "$pidfile"' EXIT
 		while true; do
+			notify-send "Getting list of available Wi-Fi networks..."
 			nmcli device wifi rescan 2>/dev/null
 			sleep 60
 		done
 	) &
 	disown
 fi
-
-notify-send "Getting list of available Wi-Fi networks..."
 
 connected=$(nmcli -fields WIFI g)
 if [[ "$connected" =~ "enabled" ]]; then

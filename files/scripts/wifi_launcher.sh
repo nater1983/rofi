@@ -8,7 +8,6 @@ if [[ ! -f "$pidfile" ]] || ! kill -0 "$(cat "$pidfile" 2>/dev/null)" 2>/dev/nul
 		echo $$ > "$pidfile"
 		trap 'rm -f "$pidfile"' EXIT
 		while true; do
-			notify-send "Getting list of available Wi-Fi networks..."
 			nmcli device wifi rescan 2>/dev/null
 			sleep 60
 		done
@@ -22,6 +21,8 @@ if [[ "$connected" =~ "enabled" ]]; then
 elif [[ "$connected" =~ "disabled" ]]; then
 	toggle="直  Enable Wi-Fi"
 fi
+
+rescan_btn="  Rescan Networks"
 
 # Build colored list using terse output (stable field parsing) + signal-based color/bars
 wifi_list=$(nmcli -t --fields SECURITY,SIGNAL,SSID device wifi list | \
@@ -51,7 +52,7 @@ wifi_list=$(nmcli -t --fields SECURITY,SIGNAL,SSID device wifi list | \
 	' | awk '!seen[$0]++')
 
 # Use rofi to select wifi network (markup-rows enables the Pango color spans)
-chosen_network=$(echo -e "$toggle\n$wifi_list" | rofi -dmenu -i -markup-rows -selected-row 1 -p "Wi-Fi SSID: ")
+chosen_network=$(echo -e "$toggle\n$rescan_btn\n$wifi_list" | rofi -dmenu -i -markup-rows -selected-row 1 -p "Wi-Fi SSID: ")
 
 # Strip Pango markup, then strip icon/bars/percent columns to get the plain SSID
 chosen_id=$(echo "$chosen_network" | sed -E 's/<[^>]*>//g' | sed -E 's/^\S+\s+\S+\s+[0-9]+%\s+//' | xargs)
@@ -62,6 +63,11 @@ elif [[ "$chosen_network" == *"Enable Wi-Fi"* ]]; then
 	nmcli radio wifi on
 elif [[ "$chosen_network" == *"Disable Wi-Fi"* ]]; then
 	nmcli radio wifi off
+elif [[ "$chosen_network" == *"Rescan Networks"* ]]; then
+	notify-send "Getting list of available Wi-Fi networks..."
+	nmcli device wifi rescan 2>/dev/null
+	sleep 2
+	exec "$0"   # relaunch the script so the refreshed list shows immediately
 else
 	success_message="You are now connected to the Wi-Fi network \"$chosen_id\"."
 	saved_connections=$(nmcli -g NAME connection)

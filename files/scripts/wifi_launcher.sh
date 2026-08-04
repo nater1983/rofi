@@ -17,10 +17,14 @@ wifi_list=$(nmcli -t --fields SECURITY,SSID device wifi list | \
 			for (i = 3; i <= NF; i++) ssid = ssid ":" $i  # rejoin if SSID had a colon
 			if (ssid == "") next
 			sec = $1
-			icon = (sec == "" || sec == "--") ? "  " : "  "
-			print icon ssid
+			if (sec == "" || sec == "--") {
+				icon = ""      # open network icon
+			} else {
+				icon = ""      # locked network icon
+			}
+			print icon "  " ssid
 		}
-	' | awk '!seen[$0]++')   # dedupe by full display line, order-preserving
+	' | awk '!seen[$0]++')
 
 chosen_network=$(echo -e "$toggle\n$wifi_list" | rofi -dmenu -i -selected-row 1 -p "Wi-Fi SSID: ")
 chosen_id=$(echo "${chosen_network:3}" | xargs)

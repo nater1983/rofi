@@ -1,9 +1,21 @@
 #!/usr/bin/env bash
 
-notify-send "Getting list of available Wi-Fi networks..."
+pidfile="/tmp/wifi-rescan-loop.pid"
 
-nmcli device wifi rescan 2>/dev/null
-sleep 2
+# Start background rescan loop if not already running
+if [[ ! -f "$pidfile" ]] || ! kill -0 "$(cat "$pidfile" 2>/dev/null)" 2>/dev/null; then
+	(
+		echo $$ > "$pidfile"
+		trap 'rm -f "$pidfile"' EXIT
+		while true; do
+			nmcli device wifi rescan 2>/dev/null
+			sleep 60
+		done
+	) &
+	disown
+fi
+
+notify-send "Getting list of available Wi-Fi networks..."
 
 connected=$(nmcli -fields WIFI g)
 if [[ "$connected" =~ "enabled" ]]; then

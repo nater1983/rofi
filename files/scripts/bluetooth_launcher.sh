@@ -20,13 +20,13 @@ device_list=$(sudo bluetoothctl devices | while read -r _ mac name; do
 	paired=$(echo "$info" | grep "Paired:" | awk '{print $2}')
 
 	if [[ "$connected" == "yes" ]]; then
-		icon=""      # connected icon -- paste real glyph
+		icon="󰂱"      # connected icon -- paste real glyph
 		color="#8BC34A"   # green
 	elif [[ "$paired" == "yes" ]]; then
-		icon=""      # paired-but-not-connected icon -- paste real glyph
+		icon=""      # paired-but-not-connected icon -- paste real glyph
 		color="#FFEB3B"   # yellow
 	else
-		icon=""      # unpaired/discovered icon -- paste real glyph
+		icon="󰂯"      # unpaired/discovered icon -- paste real glyph
 		color="#9E9E9E"   # grey
 	fi
 
